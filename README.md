@@ -17,7 +17,7 @@ solo lugar y pueda arrancar el mismo día.
 | `index.html`        | Arranque rápido: qué vendemos, el trato (30%) y la ruta de 5 pasos. |
 | `formacion.html`    | Cómo vender, en 7 módulos con "qué hacer / qué no hacer".  |
 | `prospeccion.html`  | De dónde salen los clientes, criterios y 12 nichos.        |
-| `generador.html`    | Generador de mensajes con IA (usa el Worker de Cloudflare).|
+| `generador.html`    | Armador de prompts: arma el texto para pegar en ChatGPT / Gemini / Claude. |
 | `herramientas.html` | Calculadora de comisión, plantillas, objeciones y checklists. |
 | `pipeline.html`     | CRM mínimo de prospectos (se guarda en el navegador).      |
 | `reglas.html`       | Comisiones, pagos, atribución de leads y FAQ.              |
@@ -32,8 +32,8 @@ solo lugar y pueda arrancar el mismo día.
 
 **Casi todo se cambia en un solo archivo: [`js/config.js`](js/config.js).**
 Ahí viven la comisión, los precios, el contacto interno, el código de acceso,
-la URL del Worker de IA, etc. Ningún dato de negocio está escrito "a mano" en
-el HTML: las páginas leen `CONFIG` y lo pintan solas.
+los links de los asistentes de IA, etc. Ningún dato de negocio está escrito
+"a mano" en el HTML: las páginas leen `CONFIG` y lo pintan solas.
 
 Ejemplos:
 - Cambiar la comisión: editá `comision: 0.30` → `0.35` y se actualiza en toda la web.
@@ -77,27 +77,26 @@ El sitio se sirve **desde la raíz de `main`, sin build**.
 > El archivo `.nojekyll` (vacío) ya está incluido para que Pages sirva los
 > archivos tal cual, sin procesarlos con Jekyll.
 
-## Deploy del Worker de IA
+## Generador (armador de prompts)
 
-El generador de mensajes usa un Cloudflare Worker que hace de proxy a Anthropic
-(así la API key no queda en el front). Instrucciones completas en
-[`worker/README.md`](worker/README.md). Resumen:
+`generador.html` **no usa ninguna API ni backend**. Con los datos del negocio
+arma un texto (prompt) bien redactado con las instrucciones de cómo tiene que
+ser el mensaje (rioplatense, 3–5 líneas, algo específico del negocio, sin precio
+ni link, una sola pregunta). El vendedor:
 
-```bash
-cd worker
-wrangler login
-wrangler secret put ANTHROPIC_API_KEY   # pegás tu key de Anthropic
-wrangler deploy                          # te devuelve la URL del Worker
-```
+1. Completa el formulario y toca **Armar prompt**.
+2. Toca **Copiar prompt**.
+3. Abre **ChatGPT**, **Gemini** o **Claude** con los botones y pega.
 
-Después pegás esa URL en `js/config.js` → `aiWorkerUrl`. Si lo dejás vacío, el
-generador avisa que "la IA no está configurada" y ofrece las plantillas manuales.
+No hay API keys en ningún lado. Los links de los asistentes salen de
+`CONFIG.iaLinks` (editables). Las **plantillas manuales** siguen en
+`herramientas.html` por si prefiere no usar IA.
 
 ## Valores de CONFIG que hay que completar
 
 Buscá los comentarios `<<< COMPLETAR >>>` en `js/config.js`:
 
 - `agencia.contactoWhatsapp` / `contactoWhatsappLink` / `contactoMail`
-- `aiWorkerUrl` (después de deployar el Worker)
 - `acceso.codigo` (cambiá el código de acceso cuando quieras)
 - Revisá `comisionAplicaMantenimiento` y `reglas.cuandoSePaga`.
+- Opcional: `iaLinks` (orden o asistentes de IA que use el equipo).

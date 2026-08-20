@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>Generador IA · Portal de ventas</title>
+  <title>Armador de prompts · Portal de ventas</title>
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -23,7 +23,7 @@
         <a href="index.html">Inicio</a>
         <a href="formacion.html">Formación</a>
         <a href="prospeccion.html">Prospección</a>
-        <a href="generador.html">Generador IA</a>
+        <a href="generador.html">Generador</a>
         <a href="herramientas.html">Herramientas</a>
         <a href="pipeline.html">Pipeline</a>
         <a href="reglas.html">Reglas</a>
@@ -33,16 +33,17 @@
 
   <main class="contenedor">
     <section class="seccion">
-      <p class="eyebrow">Generador IA</p>
-      <h1>Mensajes que suenan a persona</h1>
-      <p>
-        Contale al asistente qué viste del negocio y te arma 3 variantes de
-        mensaje, un seguimiento y las objeciones probables. Después copiás y mandás.
-      </p>
-      <div id="aviso-ia"></div>
+      <p class="eyebrow">Armador de prompts</p>
+      <h1>Armá el pedido perfecto para la IA</h1>
+
+      <!-- Cartel de 2 líneas: cómo funciona -->
+      <div class="aviso" id="como-funciona">
+        <b>Cómo funciona:</b> completás los datos y armamos un texto (prompt) listo.
+        Lo copiás, abrís <b>ChatGPT</b>, <b>Gemini</b> o <b>Claude</b>, lo pegás y te devuelve 3 versiones del mensaje.
+      </div>
     </section>
 
-    <!-- FORMULARIO -->
+    <!-- FORMULARIO (el mismo de siempre) -->
     <section class="seccion">
       <form class="card" id="form-gen">
         <div class="campo">
@@ -82,16 +83,16 @@
           <select id="tono" name="tono" required></select>
         </div>
 
-        <button type="submit" class="btn btn-dinero btn-block" id="btn-generar">Generar mensajes</button>
+        <button type="submit" class="btn btn-dinero btn-block" id="btn-generar">Armar prompt</button>
       </form>
     </section>
 
     <!-- RESULTADO / ESTADOS -->
     <section class="seccion" id="resultado" aria-live="polite">
-      <!-- Estado vacío por defecto (se reemplaza al generar) -->
+      <!-- Estado vacío por defecto (se reemplaza al armar el prompt) -->
       <div class="estado" id="estado-vacio">
         <div class="icono">✍️</div>
-        <p>Completá el formulario y generá tus mensajes. ¿Sin ideas?
+        <p>Completá el formulario y armá tu prompt. ¿Sin ideas?
            <a href="#" id="cargar-ejemplo">Probá con un ejemplo</a>.</p>
       </div>
     </section>
@@ -109,7 +110,6 @@
   <script src="data/nichos.js"></script>
   <script src="js/config.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/ai.js"></script>
   <script src="js/pipeline.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
@@ -119,7 +119,6 @@
       const nichos = (await cargarJSON("data/nichos.json", "NICHOS")) || [];
       const selRubro = $("rubro");
       nichos.forEach((n) => selRubro.add(new Option(n.nombre, n.id)));
-      // Si no hubo nichos (fallo de carga), dejamos una opción libre.
       if (nichos.length === 0) selRubro.add(new Option("Negocio local", "otro"));
 
       CONFIG.canales.forEach((c) => $("canal").add(new Option(c.nombre, c.id)));
@@ -130,17 +129,6 @@
       const params = new URLSearchParams(location.search);
       const nichoURL = params.get("nicho");
       if (nichoURL) selRubro.value = nichoURL;
-
-      /* --- Aviso si la IA no está configurada --- */
-      const aviso = $("aviso-ia");
-      if (!iaConfigurada()) {
-        aviso.innerHTML = `<div class="aviso">
-          <b>IA no configurada todavía.</b> Falta pegar la URL del Worker en
-          <code>js/config.js</code> (<code>aiWorkerUrl</code>). Mientras tanto,
-          usá las <a href="herramientas.html">plantillas manuales</a> de Herramientas.
-        </div>`;
-        $("btn-generar").textContent = "Generar (requiere configurar IA)";
-      }
 
       /* --- Ejemplo precargado --- */
       $("cargar-ejemplo").addEventListener("click", (e) => {
@@ -155,16 +143,108 @@
         $("negocio").scrollIntoView({ behavior: "smooth", block: "center" });
       });
 
-      /* --- Submit --- */
-      $("form-gen").addEventListener("submit", async (e) => {
+      /* --- Arma el texto del prompt con todos los datos + instrucciones --- */
+      function armarPrompt(d) {
+        const agencia = CONFIG.agencia.nombre;
+        // Solo incluimos las líneas que el vendedor completó.
+        const datos = [
+          `- Negocio: ${d.negocio}`,
+          `- Rubro: ${d.rubro}`,
+          d.ciudad ? `- Ciudad: ${d.ciudad}` : "",
+          `- Canal por el que le voy a escribir: ${d.canal}`,
+          d.observacion ? `- Qué observé del negocio: ${d.observacion}` : "",
+          `- Tono deseado: ${d.tono}`,
+        ].filter(Boolean).join("\n");
+
+        return (
+`Sos un vendedor de ${agencia}, una agencia de desarrollo web en Argentina.
+Escribí en español rioplatense (voseo), natural, como una persona real y no como una plantilla.
+
+Necesito 3 versiones de un mensaje de "${d.objetivo}" para este negocio:
+
+${datos}
+
+Reglas del mensaje (cumplilas TODAS):
+- Entre 3 y 5 líneas. Se tiene que leer en 5 segundos.
+- Mencioná algo específico y verificable del negocio (usá lo que observé arriba).
+- NO incluyas precios ni links.
+- Nada de "hola, espero que estés muy bien" ni fórmulas de plantilla.
+- Terminá con UNA sola pregunta, fácil de responder.
+- Que suene a persona, no a robot.
+
+Devolveme:
+1) Las 3 versiones numeradas. Debajo de cada una, una línea corta explicando su ángulo.
+2) Un mensaje de seguimiento para mandar 3 días después si no contesta.
+3) 2 objeciones probables de este rubro, cada una con una respuesta corta.`
+        );
+      }
+
+      /* --- Render del resultado (prompt + copiar + botones de IA) --- */
+      function renderResultado(cont, prompt, d) {
+        cont.innerHTML = "";
+
+        // 1) Recordatorio de cómo seguir (2 líneas)
+        const cartel = document.createElement("div");
+        cartel.className = "aviso";
+        cartel.innerHTML =
+          `<b>Ya está.</b> Copiá el prompt, abrí uno de los asistentes de abajo y pegalo. ` +
+          `Te va a devolver 3 versiones del mensaje para ${escapar(d.negocio || "el negocio")}.`;
+        cont.appendChild(cartel);
+
+        // 2) Botón grande "Copiar prompt" + caja con el texto
+        const box = document.createElement("div");
+        box.className = "card";
+        box.innerHTML = `
+          <button class="btn btn-dinero btn-block btn-copiar" type="button"
+                  data-copiar-target="#prompt-texto">📋 Copiar prompt</button>
+          <textarea id="prompt-texto" class="prompt-texto" rows="16"
+                    aria-label="Texto del prompt">${escapar(prompt)}</textarea>
+          <p class="ayuda">Podés editarlo antes de copiar si querés ajustar algo.</p>`;
+        cont.appendChild(box);
+
+        // 3) Botones que abren los asistentes de IA (desde CONFIG.iaLinks)
+        const abrir = document.createElement("div");
+        abrir.className = "card";
+        abrir.innerHTML = `<h3 class="mt-0">Abrí un asistente y pegá</h3>`;
+        const fila = document.createElement("div");
+        fila.className = "ia-botones";
+        CONFIG.iaLinks.forEach((ia) => {
+          const a = document.createElement("a");
+          a.className = "btn btn-primario";
+          a.href = ia.url;
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.textContent = `${ia.emoji} ${ia.nombre}`;
+          fila.appendChild(a);
+        });
+        abrir.appendChild(fila);
+        cont.appendChild(abrir);
+
+        // 4) Guardar como prospecto (aprovecha los datos ya cargados)
+        const guardar = document.createElement("button");
+        guardar.className = "btn btn-fantasma btn-block guardar-prospecto";
+        guardar.type = "button";
+        guardar.textContent = "＋ Guardar este negocio como prospecto";
+        guardar.addEventListener("click", () => {
+          const ok = guardarProspectoDesdeGenerador({
+            negocio: d.negocio, rubro: d.rubro, canal: d.canal, notas: d.observacion,
+          });
+          if (ok) {
+            guardar.textContent = "✓ Guardado en Pipeline";
+            guardar.classList.add("ok");
+            guardar.disabled = true;
+          }
+        });
+        cont.appendChild(guardar);
+
+        cont.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      /* --- Submit: NO llama a ninguna API, arma el prompt en pantalla --- */
+      $("form-gen").addEventListener("submit", (e) => {
         e.preventDefault();
-        const cont = $("resultado");
-        const btn = $("btn-generar");
-
-        // Nombre legible del rubro para el prompt.
         const rubroNombre = selRubro.options[selRubro.selectedIndex]?.text || "negocio local";
-
-        const datos = {
+        const d = {
           negocio: $("negocio").value.trim(),
           rubro: rubroNombre,
           ciudad: $("ciudad").value.trim(),
@@ -173,103 +253,8 @@
           objetivo: $("objetivo").options[$("objetivo").selectedIndex].text,
           tono: $("tono").options[$("tono").selectedIndex].text,
         };
-
-        // Estado loading (texto honesto)
-        cont.innerHTML = `<div class="estado"><div class="spinner"></div>
-          <p>Escribiendo tus mensajes… esto tarda unos segundos.</p></div>`;
-        btn.disabled = true;
-
-        try {
-          const r = await generarMensajes(datos);
-          renderResultado(cont, r, datos);
-        } catch (err) {
-          if (err.codigo === "SIN_WORKER") {
-            cont.innerHTML = `<div class="estado error"><div class="icono">🔌</div>
-              <h3 class="mt-0">IA no configurada</h3>
-              <p>Falta pegar la URL del Worker en <code>js/config.js</code>.
-              Mientras tanto, tenés plantillas manuales en
-              <a href="herramientas.html">Herramientas</a>.</p></div>`;
-          } else {
-            cont.innerHTML = `<div class="estado error"><div class="icono">⚠️</div>
-              <h3 class="mt-0">No salió</h3>
-              <p>${escapar(err.message)}</p>
-              <p class="ayuda">Podés volver a intentar. Si sigue fallando, avisá al contacto interno.</p></div>`;
-          }
-        } finally {
-          btn.disabled = false;
-        }
+        renderResultado($("resultado"), armarPrompt(d), d);
       });
-
-      /* --- Render del resultado --- */
-      function renderResultado(cont, r, datos) {
-        cont.innerHTML = "";
-
-        // Variantes
-        const h = document.createElement("div");
-        h.innerHTML = `<h2>3 variantes para ${escapar(datos.negocio || "el negocio")}</h2>`;
-        cont.appendChild(h);
-
-        r.variantes.forEach((v, i) => {
-          const card = document.createElement("div");
-          card.className = "card";
-          card.innerHTML = `
-            <div class="copiable-titulo">Variante ${i + 1}</div>
-            <p class="copiable-angulo">${escapar(v.angulo)}</p>
-            <div class="copiable" data-texto="${escapar(v.mensaje)}">
-              <button class="btn-copiar" type="button" aria-label="Copiar mensaje">Copiar</button>
-              <span>${escapar(v.mensaje)}</span>
-            </div>
-            <button class="btn btn-fantasma btn-sm guardar-prospecto" type="button">＋ Guardar como prospecto</button>`;
-          cont.appendChild(card);
-        });
-
-        // Seguimiento
-        if (r.seguimiento) {
-          const s = document.createElement("div");
-          s.className = "card";
-          s.innerHTML = `
-            <h3 class="mt-0">Seguimiento sugerido (a los 3 días)</h3>
-            <div class="copiable" data-texto="${escapar(r.seguimiento)}">
-              <button class="btn-copiar" type="button" aria-label="Copiar seguimiento">Copiar</button>
-              <span>${escapar(r.seguimiento)}</span>
-            </div>`;
-          cont.appendChild(s);
-        }
-
-        // Objeciones
-        if (r.objeciones.length) {
-          const o = document.createElement("div");
-          o.className = "card";
-          o.innerHTML = `<h3 class="mt-0">Objeciones probables de este rubro</h3>`;
-          r.objeciones.forEach((ob) => {
-            const d = document.createElement("details");
-            d.className = "modulo";
-            d.innerHTML = `<summary>${escapar(ob.objecion)}</summary>
-              <div class="modulo-cuerpo"><p>${escapar(ob.respuesta)}</p></div>`;
-            o.appendChild(d);
-          });
-          cont.appendChild(o);
-        }
-
-        // Botón "guardar como prospecto" → manda al pipeline (pipeline.js)
-        cont.querySelectorAll(".guardar-prospecto").forEach((b) => {
-          b.addEventListener("click", () => {
-            const ok = guardarProspectoDesdeGenerador({
-              negocio: datos.negocio,
-              rubro: datos.rubro,
-              canal: datos.canal,
-              notas: datos.observacion,
-            });
-            if (ok) {
-              b.textContent = "✓ Guardado en Pipeline";
-              b.classList.add("ok");
-              b.disabled = true;
-            }
-          });
-        });
-
-        cont.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
     });
   </script>
 </body>

@@ -640,3 +640,34 @@ body.bloqueado { overflow: hidden; }
   .card { padding: var(--sp-4); }
   .pipeline-metricas { grid-template-columns: 1fr; }
 }
+
+/* ==========================================================================
+   ARMADOR DE PROMPTS (generador.html)
+   ========================================================================== */
+.prompt-texto {
+  width: 100%;
+  margin-top: var(--sp-3);
+  padding: var(--sp-3);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-sm);
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.55;
+  resize: vertical;
+}
+.prompt-texto:focus-visible {
+  outline: 3px solid var(--primario);
+  outline-offset: 2px;
+}
+/* Fila de botones para abrir los asistentes de IA */
+.ia-botones {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+.ia-botones .btn {
+  flex: 1 1 130px;
+  text-align: center;
+}

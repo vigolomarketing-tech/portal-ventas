@@ -60,7 +60,7 @@ const CONFIG = {
     { id: "llamada",   nombre: "Llamada en frío" },
   ],
 
-  /* --- Objetivos de mensaje (para el generador de IA) ----------------- */
+  /* --- Objetivos de mensaje (para el armador de prompts) -------------- */
   objetivos: [
     { id: "primer_contacto", nombre: "Primer contacto" },
     { id: "seguimiento",     nombre: "Seguimiento" },
@@ -68,7 +68,7 @@ const CONFIG = {
     { id: "reactivar",       nombre: "Reactivar un 'después te aviso'" },
   ],
 
-  /* --- Tonos (para el generador de IA) -------------------------------- */
+  /* --- Tonos (para el armador de prompts) ----------------------------- */
   tonos: [
     { id: "cercano",      nombre: "Cercano" },
     { id: "profesional",  nombre: "Profesional" },
@@ -94,11 +94,15 @@ const CONFIG = {
     noCuentanComoWeb: ["business.site", "un link a Facebook", "un link a Instagram", "un Linktree"],
   },
 
-  /* --- IA: URL del Cloudflare Worker ----------------------------------
-     Dejalo en "" (vacío) hasta que deploees el Worker. El generador degrada
-     con elegancia: si está vacío, muestra un aviso y ofrece plantillas
-     manuales. Cuando tengas la URL del Worker, pegala acá. */
-  aiWorkerUrl: "", // <<< PEGAR URL DEL WORKER (ej: https://portal-ventas-ia.tu-subdominio.workers.dev)
+  /* --- Asistentes de IA (armador de prompts) --------------------------
+     El armador de prompts NO llama a ninguna API: arma el texto del pedido
+     y vos lo pegás en cualquiera de estos asistentes. Estos son los links
+     que abren los botones. Editá el orden o agregá el que uses. */
+  iaLinks: [
+    { id: "chatgpt", nombre: "ChatGPT", url: "https://chatgpt.com/",         emoji: "🟢" },
+    { id: "gemini",  nombre: "Gemini",  url: "https://gemini.google.com/app", emoji: "🔵" },
+    { id: "claude",  nombre: "Claude",  url: "https://claude.ai/new",          emoji: "🟠" },
+  ],
 
   /* --- Gate de acceso -------------------------------------------------
      OJO: esto NO es seguridad real. El código viaja al navegador y cualquiera
