@@ -249,9 +249,10 @@ function pintarFooter() {
   const conts = document.querySelectorAll("[data-footer-contacto]");
   if (!conts.length) return;
   const a = CONFIG.agencia;
+  const wsp = a.contactoWhatsappVisible || "WhatsApp";
   const html =
     `¿Dudas o cerrar una venta? Escribime: ` +
-    `<a href="${escapar(a.contactoWhatsappLink)}">WhatsApp</a> · ` +
+    `<a href="${escapar(a.contactoWhatsappLink)}">WhatsApp ${escapar(wsp)}</a> · ` +
     `<a href="mailto:${escapar(a.contactoMail)}">${escapar(a.contactoMail)}</a>`;
   conts.forEach((c) => { c.innerHTML = html; });
 }

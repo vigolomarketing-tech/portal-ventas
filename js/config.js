@@ -16,10 +16,10 @@ const CONFIG = {
     nombre: "Vigolo Web Studio",
     pais: "Argentina",
     // Contacto interno para dudas y para pasar clientes / cerrar ventas.
-    // Poné tu WhatsApp (con código de país) y/o mail.
-    contactoWhatsapp: "+54 9 0000 000000", // <<< COMPLETAR
-    contactoWhatsappLink: "https://wa.me/540000000000", // <<< COMPLETAR (sin +, sin espacios)
-    contactoMail: "hola@vigolowebstudio.com", // <<< COMPLETAR
+    contactoWhatsapp: "5491128074105",                     // número para wa.me (sin +, sin espacios)
+    contactoWhatsappLink: "https://wa.me/5491128074105",   // link directo de WhatsApp
+    contactoWhatsappVisible: "11 2807-4105",               // cómo se muestra en pantalla
+    contactoMail: "vigolomarketing@gmail.com",             // mail de contacto
   },
 
   /* --- Comisión ------------------------------------------------------- */
