@@ -4,8 +4,10 @@
    sale de variables en :root para que sea fácil de retocar.
    ========================================================================== */
 
-/* --- Tipografías (Google Fonts) ------------------------------------------ */
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+/* --- Tipografías ----------------------------------------------------------
+   Archivo (display) e Inter (texto) se cargan auto-alojadas desde css/fonts.css
+   (embebidas como data: URIs). Cada página linkea css/fonts.css ANTES que este
+   archivo. Sin pedidos externos: funciona offline y con doble clic. */
 
 /* ========================================================================== */
 /* 1. VARIABLES                                                               */
