@@ -1,0 +1,41 @@
+/* ESPEJO AUTO-GENERADO de data/objeciones.json — permite abrir el sitio con doble clic (file://).
+   Fuente de verdad: data/objeciones.json. Si editás el JSON, regenerá este archivo (ver README). */
+window.OBJECIONES = [
+  {
+    "id": "es_caro",
+    "objecion": "Es caro / no tengo presupuesto",
+    "respuesta": "Te entiendo. Pensalo así: ¿cuántas consultas por mes se te escapan porque no te encuentran o no saben cómo comprarte? Con recuperar dos o tres, la web ya se pagó. Y podemos arrancar con algo simple y crecer después. ¿Cuánto pensaste vos para esto?",
+    "tip": "No bajes el precio de una. Primero entendé si es caro de verdad o si no ve el valor. Anclá al costo de NO tenerla."
+  },
+  {
+    "id": "ya_tengo_instagram",
+    "objecion": "Ya tengo Instagram, no me hace falta",
+    "respuesta": "Instagram es buenísimo para mostrarte, pero es alquilado: dependés del algoritmo y las historias se borran. La web es tuya, aparece en Google cuando te buscan y tiene todo ordenado en un solo link. Una cosa potencia a la otra, no compiten. ¿Hoy dónde te escribe la gente para comprar?",
+    "tip": "No pelees contra Instagram. Posicionalo como complemento: la web es la casa propia, Instagram es la calle."
+  },
+  {
+    "id": "hablar_con_socio",
+    "objecion": "Lo tengo que hablar con mi socio",
+    "respuesta": "Perfecto, es una decisión de a dos. Para que se lo puedas mostrar bien, ¿te paso un resumen corto de qué incluye y el precio, así lo ven juntos? Y si les cierra, arrancamos. ¿Cuándo lo hablás con él?",
+    "tip": "No lo dejes en el aire. Facilitale el material para convencer al socio y cerrá una fecha concreta de seguimiento."
+  },
+  {
+    "id": "sobrino",
+    "objecion": "Un sobrino / conocido me la hace",
+    "respuesta": "Buenísimo si tenés a alguien de confianza. La diferencia suele ser el después: que se entregue en fecha, que quede bien en el celular y que si algo falla haya alguien que responda. Nosotros hacemos eso y te lo dejamos funcionando. Si igual querés probar con tu conocido, cualquier cosa quedo a mano. ¿Ya arrancaron con eso?",
+    "tip": "No desprecies al sobrino. Marcá la diferencia en profesionalismo, plazos y soporte. Muchas de esas webs quedan a medias."
+  },
+  {
+    "id": "no_es_momento",
+    "objecion": "Ahora no es el momento",
+    "respuesta": "Ningún drama, entiendo que hay épocas. ¿Cuándo pensás que sería un mejor momento para retomarlo? Te escribo por esa fecha así no lo perdés de vista, sin compromiso.",
+    "tip": "Aceptá el no, pero conseguí una fecha. Cargalo en el pipeline con próximo toque. Muchos 'ahora no' cierran más adelante."
+  },
+  {
+    "id": "info_whatsapp",
+    "objecion": "Mandame info por WhatsApp",
+    "respuesta": "Dale, te mando. Para que la info te sirva de verdad y no sea genérica, contame una cosa: ¿qué te gustaría lograr con la web, más consultas, mostrar el catálogo, o dejar de responder siempre lo mismo? Con eso te armo algo a tu medida.",
+    "tip": "El 'mandame info' muchas veces es un 'no' educado. Convertilo en una pregunta que reabra la conversación en vez de mandar un PDF que nadie lee."
+  }
+]
+;

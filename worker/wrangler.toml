@@ -1,0 +1,25 @@
+# ============================================================================
+# Configuración del Cloudflare Worker (proxy de IA)
+# ============================================================================
+name = "portal-ventas-ia"
+main = "index.js"
+compatibility_date = "2024-11-01"
+
+# --- Variables públicas (NO secretas) --------------------------------------
+[vars]
+# Dominio EXACTO desde donde se sirve el portal (GitHub Pages). Sin barra final.
+# Cambialo por tu URL real de Pages. Ejemplos:
+#   https://vigolomarketing-tech.github.io
+#   https://vigolomarketing-tech.github.io/portal-ventas   (si Pages sirve en subcarpeta)
+# OJO: tiene que ser el ORIGIN. El origin de GitHub Pages es
+# "https://vigolomarketing-tech.github.io" (sin la parte del repo).
+ALLOWED_ORIGIN = "https://vigolomarketing-tech.github.io"
+
+# Modelo de Anthropic. El prompt original pedía "claude-sonnet-4-6"; ese ID
+# puede no existir. El default GA actual es "claude-sonnet-5". Cambialo por el
+# modelo al que tengas acceso en tu cuenta de Anthropic.
+MODEL = "claude-sonnet-5"
+
+# --- Secret (NO va acá; se carga aparte) ------------------------------------
+# La API key se guarda con:  wrangler secret put ANTHROPIC_API_KEY
+# NUNCA la pongas en este archivo ni la subas al repo.

@@ -1,0 +1,13 @@
+# Dependencias (el front no usa npm, pero por si el worker lo necesita)
+node_modules/
+
+# Variables de entorno / secretos — NUNCA subir
+.env
+.env.*
+
+# Cloudflare Wrangler
+.wrangler/
+
+# Sistema
+.DS_Store
+Thumbs.db

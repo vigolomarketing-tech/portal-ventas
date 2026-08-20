@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Reglas · Portal de ventas</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="contenedor">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">V</div>
+        <div>
+          <div class="brand-nombre" data-config="agencia.nombre">Vigolo Web Studio</div>
+          <div class="brand-sub">Portal del equipo de ventas</div>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="formacion.html">Formación</a>
+        <a href="prospeccion.html">Prospección</a>
+        <a href="generador.html">Generador IA</a>
+        <a href="herramientas.html">Herramientas</a>
+        <a href="pipeline.html">Pipeline</a>
+        <a href="reglas.html">Reglas</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="contenedor">
+    <section class="seccion">
+      <p class="eyebrow">Reglas</p>
+      <h1>Las reglas del juego</h1>
+      <p>Claras desde el arranque, para que no haya malentendidos y todos ganemos.</p>
+    </section>
+
+    <!-- COMISIÓN -->
+    <section class="seccion">
+      <div class="card">
+        <h2 class="mt-0">Comisión</h2>
+        <div class="ficha-comision" style="margin-bottom:16px">
+          <div class="rotulo">Te llevás</div>
+          <div class="cifra" data-comision-pct>30%</div>
+          <p class="pie">de cada página vendida</p>
+        </div>
+        <p><b>Base de cálculo:</b> <span data-config="reglas.baseComision">Sobre el precio final cobrado.</span></p>
+        <p><b>Cuándo se paga:</b> <span data-config="reglas.cuandoSePaga"></span></p>
+        <p class="ayuda">Estos valores salen de <code>js/config.js</code>. Si cambian, se actualizan en todo el portal.</p>
+      </div>
+    </section>
+
+    <!-- ATRIBUCIÓN -->
+    <section class="seccion">
+      <div class="card">
+        <h2 class="mt-0">Atribución del lead</h2>
+        <p data-config="reglas.atribucion"></p>
+        <p>En criollo: <b>cargalo primero en el <a href="pipeline.html">Pipeline</a> y reportámelo</b>. Ese es el registro de quién trajo al cliente.</p>
+      </div>
+    </section>
+
+    <!-- QUIÉN HACE QUÉ -->
+    <section class="seccion">
+      <div class="card">
+        <h2 class="mt-0">Quién hace qué</h2>
+        <div class="si-no">
+          <div class="col hacer">
+            <h4>Vos (vendedor)</h4>
+            <ul>
+              <li>Prospectás y armás tu lista.</li>
+              <li>Hacés el primer contacto y el seguimiento.</li>
+              <li>Escuchás el dolor en la llamada.</li>
+              <li>Presentás precios de referencia.</li>
+              <li>Levantás los datos y me pasás el cliente.</li>
+            </ul>
+          </div>
+          <div class="col hacer" style="background:rgba(30,136,229,0.06); border-color:rgba(30,136,229,0.3)">
+            <h4 style="color:#1565C0">Yo (agencia)</h4>
+            <ul>
+              <li>Desarrollo la web.</li>
+              <li>Confirmo el precio final si hace falta ajustar.</li>
+              <li>Facturo y cobro.</li>
+              <li>Te pago tu comisión.</li>
+              <li>Doy soporte post-entrega.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUÉ NO HACER NUNCA -->
+    <section class="seccion">
+      <div class="card">
+        <h2 class="mt-0">Qué no hacer nunca</h2>
+        <div class="col evitar" style="border-radius:10px; padding:16px; border:1px solid rgba(229,72,77,0.35); background:rgba(229,72,77,0.06)">
+          <ul style="margin:0; padding-left:18px">
+            <li><b>Prometer plazos.</b> Los defino yo según la carga real.</li>
+            <li><b>Inventar funcionalidades.</b> Si no sabés si se puede, decí "lo consulto".</li>
+            <li><b>Dar descuentos por tu cuenta.</b> El precio lo cierro yo.</li>
+            <li><b>Spamear.</b> Nada de mandar 50 mensajes iguales. Cuida la marca.</li>
+            <li><b>Prometer resultados garantizados</b> ("vas a vender el doble").</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="seccion">
+      <h2>Preguntas frecuentes</h2>
+
+      <details class="modulo" open>
+        <summary>¿Cuándo cobro mi comisión?</summary>
+        <div class="modulo-cuerpo"><p><span data-config="reglas.cuandoSePaga"></span> La comisión es <span data-comision-pct>30%</span> sobre lo efectivamente cobrado.</p></div>
+      </details>
+
+      <details class="modulo">
+        <summary>¿Y si el cliente paga en cuotas?</summary>
+        <div class="modulo-cuerpo"><p>Tu comisión acompaña el cobro real: cobrás tu parte a medida que el cliente paga. Nunca comisión sobre plata que todavía no entró.</p></div>
+      </details>
+
+      <details class="modulo">
+        <summary>¿Qué pasa si el cliente ya era de la agencia?</summary>
+        <div class="modulo-cuerpo"><p><span data-config="reglas.atribucion"></span></p></div>
+      </details>
+
+      <details class="modulo">
+        <summary>¿Tengo que saber de diseño o programación?</summary>
+        <div class="modulo-cuerpo"><p>No. Vos vendés el resultado (más clientes, mejor imagen). De la parte técnica me encargo yo. Si te preguntan algo técnico, "lo consulto y te confirmo".</p></div>
+      </details>
+
+      <details class="modulo">
+        <summary>¿Cómo sé qué precio decir?</summary>
+        <div class="modulo-cuerpo"><p>Usá los precios de referencia (Landing <span data-precio="landing"></span>, Institucional <span data-precio="institucional"></span>, E-commerce <span data-precio="ecommerce"></span>). Si el caso es raro o el cliente pide algo especial, me pasás los datos y confirmo yo.</p></div>
+      </details>
+
+      <details class="modulo">
+        <summary>¿Puedo ofrecer un descuento para cerrar?</summary>
+        <div class="modulo-cuerpo"><p>No por tu cuenta. Si creés que hace falta, hablámelo. Bajar el precio sin criterio nos come el margen y tu comisión.</p></div>
+      </details>
+
+      <details class="modulo">
+        <summary>¿Cuántos mensajes mando antes de soltar?</summary>
+        <div class="modulo-cuerpo"><p>Cadencia de 4 toques (día 1, 3, 7 y 14). Si no hay respuesta, soltás y programás un "próximo toque" para 1–2 meses en el Pipeline.</p></div>
+      </details>
+
+      <details class="modulo">
+        <summary>¿Dónde anoto a los prospectos?</summary>
+        <div class="modulo-cuerpo"><p>En el <a href="pipeline.html">Pipeline</a>. Se guarda en tu navegador. Exportá el JSON seguido para no perder nada.</p></div>
+      </details>
+
+      <details class="modulo">
+        <summary>¿Qué le mando a un cliente que quiere "ver ejemplos"?</summary>
+        <div class="modulo-cuerpo"><p>Pedímelos y te paso trabajos para mostrar. No inventes ni prometas algo que no viste.</p></div>
+      </details>
+
+      <details class="modulo">
+        <summary>¿A quién le escribo si tengo una duda o quiero cerrar una venta?</summary>
+        <div class="modulo-cuerpo"><div data-footer-contacto style="text-align:left"></div></div>
+      </details>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="contenedor">
+      <div data-footer-contacto></div>
+      <p style="margin-top:16px">Portal interno de <span data-config="agencia.nombre"></span> · Uso exclusivo del equipo de ventas.</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
